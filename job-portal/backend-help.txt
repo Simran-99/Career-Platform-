@@ -1,0 +1,85 @@
+1. Install MongoDB, postgres
+
+2. Replace in .env file:
+PG_URI=postgres://postgres:password@localhost:5432/job-portal :
+
+postgres:password with "your-username":"your-password" 
+
+
+3. cURL Commands
+Register an Applicant
+
+curl -X POST http://localhost:5000/api/applicants \
+-H "Content-Type: application/json" \
+-d '{
+    "email": "applicant@example.com",
+    "password": "password123",
+    "f_name": "John",
+    "l_name": "Doe",
+    "phone": "1234567890",
+    "resume": "resume.pdf"
+}'
+
+
+Register an Employer
+
+
+curl -X POST http://localhost:5000/api/employers \
+-H "Content-Type: application/json" \
+-d '{
+    "email": "employer@example.com",
+    "password": "password123",
+    "name": "Employer Name",
+    "phone": "1234567890",
+    "location": "City",
+    "tagline": "We hire the best",
+    "description": "Company description",
+    "website": "http://employer.com"
+}'
+
+Similarly for admin
+
+curl -X POST http://localhost:5000/api/users/login \
+-H "Content-Type: application/json" \
+-d '{
+    "email": "admin@example.com",
+    "password": "password123"
+}'
+```
+
+Create Job Posting (Requires Token)
+
+curl -X POST http://localhost:5000/api/jobs \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <JWT_TOKEN>" \
+-d '{
+    "title": "Software Developer",
+    "category": "Engineering",
+    "salary": 60000,
+    "type": "Full-time",
+    "description": "Job description here",
+    "company_id": "1"
+}
+Replace `<JWT_TOKEN>` with the token obtained from the login request.
+
+Get All Job Postings (Requires Token)
+
+curl -X GET http://localhost:5000/api/jobs \
+-H "Authorization: Bearer <JWT_TOKEN>"
+
+Replace `<JWT_TOKEN>` with the token obtained from the login request.
+
+Apply for a Job (Requires Token)
+
+
+curl -X POST http://localhost:5000/api/jobs/apply \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <JWT_TOKEN>" \
+-d '{
+    "job_id": "1",
+    "applicant_id": "1"
+}'
+
+Replace `<JWT_TOKEN>` with the token obtained from the login request.
+
+
